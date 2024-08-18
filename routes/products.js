@@ -207,7 +207,7 @@ router.post('/checkout', async (req, res) => {
       payment_method_types: ['card'],
       mode: 'payment',
       line_items: lineItems,
-      success_url: `${CLIENT_URL}`,
+      success_url: `${CLIENT_URL}?payment=success`,
       cancel_url: `${CLIENT_URL}/cancel`,
     });
 
