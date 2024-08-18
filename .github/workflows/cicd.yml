@@ -3,27 +3,42 @@ name: Deploy Node Application
 on:
   push:
     branches:
-        - main
+      - main
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout Source
-              uses: actions/checkout@v4
-            - name: Login to docker hub
-              run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
-            - name: Build Docker Image 
-              run: docker build -t vishnu463/fastmart-api .
-            - name: Publish Image to docker hub
-              run: docker push vishnu463/fastmart-api:latest
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+
+      - name: Login to docker hub
+        run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
+
+      - name: Build Docker Image 
+        run: docker build -t vishnu463/fastmart-api .
+
+      - name: Publish Image to docker hub
+        run: docker push vishnu463/fastmart-api:latest
     
-    deploy:
-        needs: build
-        runs-on: self-hosted 
-        steps:
-          - name: Pull image from docker hub
-            run: docker pull vishnu463/fastmart-api:latest
-          - name: Run Docker Container
-            run: docker run -d -p 4000:4000 --name fastmart-api-container -e MONGO_URL='${{secrets.MONGO_URL}}' -e CLIENT_URL='${{secrets.CLIENT_URL}}' -e SECRET_KEY='${{secrets.SECRET_KEY}}' -e STRIPE_PRIVATE_KEY='${{secrets.STRIPE_PRIVATE_KEY}}' vishnu463/fastmart-api
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: Stop existing Docker container
+        run: docker stop fastmart-api-container || true
+
+      - name: Remove existing Docker container
+        run: docker rm fastmart-api-container || true
+
+      - name: Pull image from docker hub
+        run: docker pull vishnu463/fastmart-api:latest
+
+      - name: Run Docker Container
+        run: docker run -d -p 4000:4000 --name fastmart-api-container \
+            -e MONGO_URL='${{secrets.MONGO_URL}}' \
+            -e CLIENT_URL='${{secrets.CLIENT_URL}}' \
+            -e SECRET_KEY='${{secrets.SECRET_KEY}}' \
+            -e STRIPE_PRIVATE_KEY='${{secrets.STRIPE_PRIVATE_KEY}}' \
+            vishnu463/fastmart-api
             
