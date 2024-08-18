@@ -25,5 +25,5 @@ jobs:
           - name: Pull image from docker hub
             run: docker pull vishnu463/fastmart-api:latest
           - name: Run Docker Container
-            run: docker run -d -p 4000:4000 --name fastmart-api-container -e MONGO_URL='${{secrets.MONGO_URL}}' vishnu463/fastmart-api
+            run: docker run -d -p 4000:4000 --name fastmart-api-container -e MONGO_URL='${{secrets.MONGO_URL}}' -e CLIENT_URL='${{secrets.CLIENT_URL}}' -e SECRET_KEY='${{secrets.SECRET_KEY}}' -e STRIPE_PRIVATE_KEY='${{secrets.STRIPE_PRIVATE_KEY}}' vishnu463/fastmart-api
             
