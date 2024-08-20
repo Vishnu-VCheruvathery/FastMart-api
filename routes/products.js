@@ -211,7 +211,7 @@ router.post('/checkout', async (req, res) => {
       cancel_url: `${CLIENT_URL}/cancel`,
     });
 
-    res.json({ url: session.url, message: 'Thank you for shopping!' });
+    res.json({ url: session.url });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
