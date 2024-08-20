@@ -13,30 +13,30 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Login to docker hub
-        run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
+        run: sudo docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
 
       - name: Build Docker Image 
-        run: docker build -t vishnu463/fastmart-api .
+        run: sudo docker build -t vishnu463/fastmart-api .
 
       - name: Publish Image to docker hub
-        run: docker push vishnu463/fastmart-api:latest
+        run: sudo docker push vishnu463/fastmart-api:latest
     
   deploy:
     needs: build
     runs-on: self-hosted
     steps:
       - name: Stop existing Docker container
-        run: docker stop fastmart-api-container || true
+        run: sudo docker stop fastmart-api-container || true
 
       - name: Remove existing Docker container
-        run: docker rm fastmart-api-container || true
+        run: sudo docker rm fastmart-api-container || true
 
       - name: Pull image from docker hub
-        run: docker pull vishnu463/fastmart-api:latest
+        run: sudo docker pull vishnu463/fastmart-api:latest
 
       - name: Run Docker Container
         run: |
-          docker run -d -p 3000:3000 --name fastmart-api-container \
+          sudo docker run -d -p 3000:3000 --name fastmart-api-container \
             -e MONGO_URL='${{secrets.MONGO_URL}}' \
             -e CLIENT_URL='${{secrets.CLIENT_URL}}' \
             -e SECRET_KEY='${{secrets.SECRET_KEY}}' \
