@@ -57,7 +57,7 @@ router.post('/login',async(req,res) => {
       res.json({token})
     } else {
       res.json({
-        error: "Passwords don't match"
+        error: "Passwords don't match, Try again"
       })
     }
   } catch (error) {
