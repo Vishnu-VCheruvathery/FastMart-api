@@ -173,7 +173,6 @@ router.delete('/cart/:userID', async (req, res) => {
   }
 });
 
-
 router.post('/checkout', async (req, res) => {
   try {
     const lineItems = [];
@@ -191,13 +190,13 @@ router.post('/checkout', async (req, res) => {
             },
             unit_amount: unitAmountInPaise,
           },
-          quantity: 1, // You can adjust the quantity as needed
-        });
+          quantity: 1,
+        }); // Close the if block correctly
       } else {
         // Handle the case where the product is not found
         console.error(`Product not found for item ID: ${item._id}`);
       }
-    }
+    } // Close the loop correctly
 
     if (lineItems.length === 0) {
       return res.status(400).json({ error: 'No valid items in the cart' });
@@ -216,5 +215,3 @@ router.post('/checkout', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-
-export {router as productRouter} 
