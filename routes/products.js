@@ -196,7 +196,7 @@ router.post('/checkout', async (req, res) => {
         // Handle the case where the product is not found
         console.error(`Product not found for item ID: ${item._id}`);
       }
-    } // Close the loop correctly
+    } 
 
     if (lineItems.length === 0) {
       return res.status(400).json({ error: 'No valid items in the cart' });
