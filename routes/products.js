@@ -191,7 +191,7 @@ router.post('/checkout', async (req, res) => {
             unit_amount: unitAmountInPaise,
           },
           quantity: 1,
-        }); // Close the if block correctly
+        }); 
       } else {
         // Handle the case where the product is not found
         console.error(`Product not found for item ID: ${item._id}`);
