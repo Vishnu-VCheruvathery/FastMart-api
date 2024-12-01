@@ -193,7 +193,7 @@ router.post('/checkout', async (req, res) => {
           quantity: 1,
         }); 
       } else {
-        // Handle the case where the product is not found
+      
         console.error(`Product not found for item ID: ${item._id}`);
       }
     } 
