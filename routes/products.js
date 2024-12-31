@@ -30,7 +30,7 @@ const upload = multer({
 })
 router.get('/find', async (req, res) => {
   try {
-    const searchTerm = req.query.name; // Access the search term from the query parameter 'name'
+    const searchTerm = req.query.name; 
 
     if (!searchTerm) {
       return res.status(400).json({ error: 'Search term is required' });
